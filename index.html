@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz - Sítios Arqueológicos de Parintins</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.6s ease-in-out;
+  }
+  .overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.45);
+    z-index: -1;
+  }
+  #quiz-container {
+    background-color: rgba(0,0,0,0.65);
+    padding: 20px 30px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 800px;
+    margin-top: 40px;
+    box-shadow: 0 0 12px rgba(255,255,255,0.1);
+  }
+  h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+  }
+  img {
+    max-width: 90%;
+    border-radius: 8px;
+    margin: 10px 0;
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    background-color: #0066cc;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #004f9d;
+  }
+  .img-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  .img-options img {
+    width: 45%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: transform 0.2s, border 0.2s;
+  }
+  .img-options img:hover {
+    transform: scale(1.02);
+    border: 3px solid #00aaff;
+  }
+  .center {
+    text-align: center;
+  }
+
+  /* Estilos gerais das curiosidades */
+  #curiosidade{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  #curiosidade img {
+    display: block;
+    margin: 15px auto;
+    max-width: 90%;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  }
+
+  /* 🔹 Estilo especial apenas para a curiosidade 6 (Caprichoso e Garantido) */
+  #curiosidade6 {
+    display: flex;
+    flex-direction: column; /* coloca um embaixo do outro */
+    align-items: center;
+    text-align: center;
+  }
+
+  #curiosidade6 img {
+    width: 650px;    /* mais largo */
+    height: auto;    /* mantém proporção */
+    max-width: 90%;
+    margin: 20px 0;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.15);
+  }
+</style>
+</head>
+<body>
+<div class="overlay"></div>
+<div id="quiz-container">
+  <h2 id="question"></h2>
+  <div id="content"></div>
+  <div class="center">
+    <button id="next-btn">Responder</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    tipo: "pergunta",
+    texto: "1) Você conhece os sítios arqueológicos de Parintins?",
+    alternativas: ["Sim", "Não"],
+    resposta: null,
+    fundo:  "mapa_parintins2.png"
+  },
+  {
+    tipo: "pergunta",
+    texto: "2) Que tipo de artefatos são mais comumente encontrados nos sítios arqueológicos de Parintins?",
+    alternativasImg: ["fragmentos.jpg", "mumia.jpg"],
+    resposta: 0,
+    fundo: "castanheira.jpg"
+  },
+  {
+    tipo: "pergunta",
+    texto: "3) O que é Arqueologia?",
+    alternativas: [
+      "O estudo dos dinossauros que habitavam a ilha de Tupinambarana.",
+      "Ciência que estuda vestígios deixados por povos antigos, como cerâmicas, ferramentas e construções. Em Parintins, ela investiga modos de vida indígenas anteriores à colonização."
+    ],
+    resposta: 1,
+    fundo: "fundo_arqueologia.jpg"
+  },
+  {
+    tipo: "curiosidade",
+    texto: "Parintins abriga um dos sítios arqueológicos mais importantes da Amazônia, o Sítio do Macurany, com milhares de fragmentos de cerâmica antiga.",
+    imagens: ["rio.jpg"]
+  },
+  {
+    tipo: "pergunta",
+    texto: "4) Qual é o nome do principal sítio arqueológico de Parintins?",
+    alternativas: ["Sítio Macurany", "Sítio Aninga", "Sítio Parananema"],
+    resposta: 0,
+    fundo: "sitio_macurany.png"
+  },
+  {
+    tipo: "pergunta",
+    texto: "5) Que tipo de vestígio arqueológico é mais comum no Sítio do Macurany?",
+    alternativasImg: ["farao.jpg", "pesquisadora.jpg"],
+    resposta: 1,
+    fundo: "konduri.jpg"
+  },
+  {
+    tipo: "curiosidade",
+    texto: "As cerâmicas Konduri são conhecidas por seus desenhos e formas elaboradas — muitas vezes feitas para rituais e sepultamentos.",
+    imagens: ["ceramica.jpg"]
+  },
+  {
+    tipo: "pergunta",
+    texto: "6) Por que Parintins é uma área rica em sítios arqueológicos?",
+    alternativas: [
+      "Porque está localizada às margens do rio Amazonas e de antigos igarapés, locais propícios para o surgimento de aldeias indígenas.",
+      "Porque está localizada às margens do rio Nilo.",
+      "Porque está paralela ao monte Roraima."
+    ],
+    resposta: 0,
+    fundo: "orla_antiga.jpg"
+  },
+  {
+    tipo: "curiosidade",
+    texto: "Essas comunidades antigas escolhiam locais elevados e férteis — chamadas de 'terra preta de índio' — para viver e cultivar.",
+    imagens: ["sitio.jpg"]
+  },
+  {
+    tipo: "pergunta",
+    texto: "7) Qual a importância da Arqueologia para os moradores de Parintins hoje?",
+    alternativas: [
+      "Ela ajuda a preservar a memória ancestral da região e valoriza as raízes culturais dos povos indígenas amazônicos.",
+      "Não tem relevância histórica ou cultural."
+    ],
+    resposta: 0,
+    fundo: "raizes.jpg"
+  },
+  {
+    tipo: "curiosidade",
+    texto: "O Projeto de extensão 'Na Trilha do Patrimônio Arqueológico' envolve alunos da rede municipal e privada para conhecer e cuidar desses sítios.",
+    imagens: ["amostra1.jpg", "amostra2.jpg"]
+  },
+  {
+    tipo: "pergunta",
+    texto: "8) Quais ameaças colocam em risco os sítios arqueológicos de Parintins?",
+    alternativas: [
+      "Não apresentam nenhum risco.",
+      "A construção irregular, o desmatamento, o avanço urbano e o vandalismo."
+    ],
+    resposta: 1,
+    fundo: "ameaças.jpg"
+  },
+  {
+    tipo: "curiosidade",
+    texto: "Em alguns locais, fragmentos arqueológicos acabam sendo destruídos por obras sem acompanhamento técnico.",
+    imagens: ["escavacao.jpg"]
+  },
+  {
+    tipo: "pergunta",
+    texto: "9) Qual a relação entre a arqueologia e a cultura popular de Parintins, como o Festival dos Bois?",
+    alternativas: [
+      "Nenhuma, são assuntos diferentes.",
+      "Cultura popular não tem relação com o passado.",
+      "Ambas refletem a identidade e a memória cultural da região — a arqueologia revela o passado indígena, enquanto o festival mantém vivas as tradições e mitos amazônicos."
+    ],
+    resposta: 2,
+    fundo: "festa_dos_bois.jpg"
+  },
+  {
+    tipo: "curiosidade",
+    texto: "Os bois-bumbás Caprichoso e Garantido frequentemente incorporam elementos da história amazônica e indígena em suas alegorias e temas.",
+    imagens: ["caprichoso.jpg", "boi_garantido2.webp"] // curiosidade 6
+  },
+  {
+    tipo: "pergunta",
+    texto: "10) Se uma pessoa encontrar materiais arqueológicos, pode vender?",
+    alternativas: [
+      "Sim.",
+      "Não. A compra e venda de objetos arqueológicos é crime, assim como realizar escavações sem autorização do IPHAN (Lei nº 3.924/1961). Caso encontre materiais arqueológicos, entre em contato pelo e-mail: iphan-am@iphan.gov.br ou gepia@uea.edu.br."
+    ],
+    resposta: 1,
+    fundo: "nao-pode_vender.jpg"
+  }
+];
+
+let current = 0;
+let attempts = 0;
+
+const questionEl = document.getElementById("question");
+const contentEl = document.getElementById("content");
+const nextBtn = document.getElementById("next-btn");
+
+function loadQuestion() {
+  contentEl.innerHTML = "";
+  const q = questions[current];
+  document.body.style.backgroundImage = q.fundo ? `url('${q.fundo}')` : "none";
+
+  nextBtn.onclick = null;
+  nextBtn.disabled = false;
+  nextBtn.textContent = "Responder";
+
+  if (q.tipo === "curiosidade") {
+    questionEl.textContent = "Curiosidade:";
+
+    const curiosidadeDiv = document.createElement("div");
+
+    // 🔹 ALTERAÇÃO AQUI: caso seja a curiosidade 6 (Caprichoso e Garantido)
+    if (current === 14) {
+      curiosidadeDiv.id = "curiosidade6";
+    } else {
+      curiosidadeDiv.id = "curiosidade";
+    }
+
+    const p = document.createElement("p");
+    p.textContent = q.texto;
+    curiosidadeDiv.appendChild(p);
+
+    if (q.imagens) {
+      q.imagens.forEach(imgPath => {
+        const img = document.createElement("img");
+        img.src = imgPath;
+        curiosidadeDiv.appendChild(img);
+      });
+    }
+
+    contentEl.appendChild(curiosidadeDiv);
+    nextBtn.textContent = current === questions.length - 1 ? "Concluir" : "Próximo";
+    nextBtn.onclick = nextQuestion;
+    return;
+  }
+
+  // perguntas normais
+  questionEl.textContent = q.texto;
+
+  if (q.alternativasImg) {
+    const imgContainer = document.createElement("div");
+    imgContainer.className = "img-options";
+    q.alternativasImg.forEach((path, i) => {
+      const img = document.createElement("img");
+      img.src = path;
+      img.onclick = () => checkAnswer(i);
+      imgContainer.appendChild(img);
+    });
+    contentEl.appendChild(imgContainer);
+    nextBtn.disabled = true;
+  } else {
+    const options = document.createElement("div");
+    options.className = "options";
+    q.alternativas.forEach((alt, i) => {
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "alt";
+      input.value = i;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(" " + alt));
+      options.appendChild(label);
+    });
+    contentEl.appendChild(options);
+
+    nextBtn.onclick = () => {
+      const selected = document.querySelector("input[name='alt']:checked");
+      if (!selected) {
+        alert("Selecione uma alternativa.");
+        return;
+      }
+      checkAnswer(parseInt(selected.value));
+    };
+  }
+}
+
+function checkAnswer(choice) {
+  const q = questions[current];
+  if (q.resposta === null) {
+    nextQuestion();
+    return;
+  }
+  if (choice === q.resposta) {
+    alert("✅ Resposta certa!");
+    nextQuestion();
+  } else {
+    attempts++;
+    if (attempts >= 2) {
+      alert("❌ Game Over! Tente novamente.");
+      location.reload();
+    } else {
+      alert(`Errado! Tentativa ${attempts}/2`);
+    }
+  }
+}
+
+function nextQuestion() {
+  current++;
+  attempts = 0;
+  if (current < questions.length) {
+    loadQuestion();
+  } else {
+    showParabens();
+  }
+}
+
+function showParabens() {
+  document.body.style.backgroundImage = "url('imagens/parabens.jpg')";
+  document.querySelector(".overlay").style.background = "rgba(0,0,0,0.55)";
+  document.getElementById("quiz-container").innerHTML = `
+    <h2 class="center">🎉 Parabéns, você concluiu o quiz! 🎉</h2>
+    <div class="center"><img src="parabens.jpg" style="max-width:80%"></div>
+    <div class="center"><button onclick="location.reload()">Recomeçar</button></div>
+  `;
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
+
+
+
