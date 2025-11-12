@@ -82,32 +82,16 @@
     text-align: center;
   }
 
-  /* Estilos gerais das curiosidades */
-  #curiosidade{
+  #curiosidade6 {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-  #curiosidade img {
-    display: block;
-    margin: 15px auto;
-    max-width: 90%;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(255,255,255,0.1);
-  }
-
-  /* 🔹 Estilo especial apenas para a curiosidade 6 (Caprichoso e Garantido) */
-  #curiosidade6 {
-    display: flex;
-    flex-direction: column; /* coloca um embaixo do outro */
-    align-items: center;
-    text-align: center;
-  }
 
   #curiosidade6 img {
-    width: 650px;    /* mais largo */
-    height: auto;    /* mantém proporção */
+    width: 650px;
+    height: auto;
     max-width: 90%;
     margin: 20px 0;
     border-radius: 15px;
@@ -152,11 +136,6 @@ const questions = [
     fundo: "fundo_arqueologia.jpg"
   },
   {
-    tipo: "curiosidade",
-    texto: "Parintins abriga um dos sítios arqueológicos mais importantes da Amazônia, o Sítio do Macurany, com milhares de fragmentos de cerâmica antiga.",
-    imagens: ["rio.jpg"]
-  },
-  {
     tipo: "pergunta",
     texto: "4) Qual é o nome do principal sítio arqueológico de Parintins?",
     alternativas: ["Sítio Macurany", "Sítio Aninga", "Sítio Parananema"],
@@ -171,11 +150,6 @@ const questions = [
     fundo: "konduri.jpg"
   },
   {
-    tipo: "curiosidade",
-    texto: "As cerâmicas Konduri são conhecidas por seus desenhos e formas elaboradas — muitas vezes feitas para rituais e sepultamentos.",
-    imagens: ["ceramica.jpg"]
-  },
-  {
     tipo: "pergunta",
     texto: "6) Por que Parintins é uma área rica em sítios arqueológicos?",
     alternativas: [
@@ -185,11 +159,6 @@ const questions = [
     ],
     resposta: 0,
     fundo: "orla_antiga.jpg"
-  },
-  {
-    tipo: "curiosidade",
-    texto: "Essas comunidades antigas escolhiam locais elevados e férteis — chamadas de 'terra preta de índio' — para viver e cultivar.",
-    imagens: ["sitio.jpg"]
   },
   {
     tipo: "pergunta",
@@ -202,11 +171,6 @@ const questions = [
     fundo: "raizes.jpg"
   },
   {
-    tipo: "curiosidade",
-    texto: "O Projeto de extensão 'Na Trilha do Patrimônio Arqueológico' envolve alunos da rede municipal e privada para conhecer e cuidar desses sítios.",
-    imagens: ["amostra1.jpg", "amostra2.jpg"]
-  },
-  {
     tipo: "pergunta",
     texto: "8) Quais ameaças colocam em risco os sítios arqueológicos de Parintins?",
     alternativas: [
@@ -215,11 +179,6 @@ const questions = [
     ],
     resposta: 1,
     fundo: "ameaças.jpg"
-  },
-  {
-    tipo: "curiosidade",
-    texto: "Em alguns locais, fragmentos arqueológicos acabam sendo destruídos por obras sem acompanhamento técnico.",
-    imagens: ["escavacao.jpg"]
   },
   {
     tipo: "pergunta",
@@ -235,7 +194,7 @@ const questions = [
   {
     tipo: "curiosidade",
     texto: "Os bois-bumbás Caprichoso e Garantido frequentemente incorporam elementos da história amazônica e indígena em suas alegorias e temas.",
-    imagens: ["caprichoso.jpg", "boi_garantido2.webp"] // curiosidade 6
+    imagens: ["caprichoso.jpg", "boi_garantido2.webp"]
   },
   {
     tipo: "pergunta",
@@ -267,20 +226,11 @@ function loadQuestion() {
 
   if (q.tipo === "curiosidade") {
     questionEl.textContent = "Curiosidade:";
-
     const curiosidadeDiv = document.createElement("div");
-
-    // 🔹 ALTERAÇÃO AQUI: caso seja a curiosidade 6 (Caprichoso e Garantido)
-    if (current === 14) {
-      curiosidadeDiv.id = "curiosidade6";
-    } else {
-      curiosidadeDiv.id = "curiosidade";
-    }
-
+    curiosidadeDiv.id = "curiosidade6";
     const p = document.createElement("p");
     p.textContent = q.texto;
     curiosidadeDiv.appendChild(p);
-
     if (q.imagens) {
       q.imagens.forEach(imgPath => {
         const img = document.createElement("img");
@@ -288,14 +238,12 @@ function loadQuestion() {
         curiosidadeDiv.appendChild(img);
       });
     }
-
     contentEl.appendChild(curiosidadeDiv);
     nextBtn.textContent = current === questions.length - 1 ? "Concluir" : "Próximo";
     nextBtn.onclick = nextQuestion;
     return;
   }
 
-  // perguntas normais
   questionEl.textContent = q.texto;
 
   if (q.alternativasImg) {
@@ -379,8 +327,3 @@ loadQuestion();
 </script>
 </body>
 </html>
-
-
-
-
-
