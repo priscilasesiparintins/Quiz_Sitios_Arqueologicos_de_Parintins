@@ -112,6 +112,11 @@
 <script>
 const questions = [
   {
+    tipo: "curiosidade",
+    texto: "Os bois-bumbás Caprichoso e Garantido frequentemente incorporam elementos da história amazônica e indígena em suas alegorias e temas.",
+    imagens: ["caprichoso.jpg", "boi_garantido2.webp"]
+  },
+  {
     tipo: "pergunta",
     texto: "1) Você conhece os sítios arqueológicos de Parintins?",
     alternativas: ["Sim", "Não"],
@@ -182,23 +187,7 @@ const questions = [
   },
   {
     tipo: "pergunta",
-    texto: "9) Qual a relação entre a arqueologia e a cultura popular de Parintins, como o Festival dos Bois?",
-    alternativas: [
-      "Nenhuma, são assuntos diferentes.",
-      "Cultura popular não tem relação com o passado.",
-      "Ambas refletem a identidade e a memória cultural da região — a arqueologia revela o passado indígena, enquanto o festival mantém vivas as tradições e mitos amazônicos."
-    ],
-    resposta: 2,
-    fundo: "festa_dos_bois.jpg"
-  },
-  {
-    tipo: "curiosidade",
-    texto: "Os bois-bumbás Caprichoso e Garantido frequentemente incorporam elementos da história amazônica e indígena em suas alegorias e temas.",
-    imagens: ["caprichoso.jpg", "boi_garantido2.webp"]
-  },
-  {
-    tipo: "pergunta",
-    texto: "10) Se uma pessoa encontrar materiais arqueológicos, pode vender?",
+    texto: "9) Se uma pessoa encontrar materiais arqueológicos, pode vender?",
     alternativas: [
       "Sim.",
       "Não. A compra e venda de objetos arqueológicos é crime, assim como realizar escavações sem autorização do IPHAN (Lei nº 3.924/1961). Caso encontre materiais arqueológicos, entre em contato pelo e-mail: iphan-am@iphan.gov.br ou gepia@uea.edu.br."
@@ -239,7 +228,7 @@ function loadQuestion() {
       });
     }
     contentEl.appendChild(curiosidadeDiv);
-    nextBtn.textContent = current === questions.length - 1 ? "Concluir" : "Próximo";
+    nextBtn.textContent = "Começar o Quiz";
     nextBtn.onclick = nextQuestion;
     return;
   }
